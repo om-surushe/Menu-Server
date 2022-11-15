@@ -35,7 +35,7 @@ mongoose.connect(
 }).catch((err) => { console.log(err) });
 
 
-app.get("/api", async (req, res) => {
+app.get("/menu", async (req, res) => {
     try {
         const items = await Item.find();
 
