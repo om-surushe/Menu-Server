@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const Item = require('./Item')
+const MenuRouters = require('./Menu')
 
 // Initialization
 const app = express()
@@ -34,35 +34,7 @@ mongoose.connect(
     console.log("Connectionn successful");
 }).catch((err) => { console.log(err) });
 
-
-app.get("/menu", async (req, res) => {
-    try {
-        const items = await Item.find();
-
-        res.status(200).json(items);
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
-
-app.post("/add", async (req, res) => {
-    try {
-
-        const newItem = new Item(
-            {
-                title: req.body.title,
-                amount: req.body.amount,
-                imageLink: req.body.imageLink,
-            }
-        );
-
-        await newItem.save();
-
-        res.status(200).json("Item has been added");
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
+app.use("/api/canteen", MenuRouters )
 
 // Listening
 app.listen(process.env.PORT || port, () => console.log(`App listening on port http://localhost:${port}`))
